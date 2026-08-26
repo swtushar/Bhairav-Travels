@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>भैरव ट्रॅव्हल्स | Bus Ticket Booking</title>
+<style>
+:root{--blue:#0b4f8a;--light:#f4f8fc;--dark:#123047;--green:#18a957}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans Devanagari",sans-serif;background:var(--light);color:#222}
+header{background:linear-gradient(135deg,#083b68,#1685c4);color:#fff;padding:28px 18px;text-align:center}
+header h1{margin:0;font-size:32px}
+header p{margin:8px 0 0;font-size:15px}
+.container{max-width:720px;margin:18px auto;padding:0 14px}
+.card{background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+h2{color:var(--dark);margin-top:0;font-size:21px}
+label{display:block;font-weight:700;margin:14px 0 6px}
+select,input{width:100%;padding:13px;border:1px solid #ccd7e0;border-radius:10px;font-size:15px;background:#fff}
+.route-info{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.badge{background:#e9f4ff;color:var(--blue);padding:8px 11px;border-radius:20px;font-size:13px;font-weight:700}
+button{width:100%;border:0;border-radius:12px;padding:15px;font-size:17px;font-weight:700;cursor:pointer}
+.whatsapp{background:var(--green);color:white;margin-top:18px}
+.reset{background:#eef2f5;color:#333;margin-top:8px}
+.note{font-size:13px;color:#666;line-height:1.5}
+.terms{font-size:13px;line-height:1.65;color:#444;padding-left:18px}
+footer{text-align:center;color:#666;font-size:13px;padding:20px}
+.hidden{display:none}
+.small{font-size:12px;color:#777;margin-top:5px}
+.passenger-box{border:1px solid #d7e1e8;border-radius:12px;padding:14px;margin:10px 0;background:#f9fbfd}
+.passenger-box label{margin-top:10px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>भैरव ट्रॅव्हल्स</h1>
+  <p>Bus Ticket Booking Service</p>
+  <div class="route-info" style="justify-content:center;margin-top:14px">
+    <span class="badge">रत्नागिरी → मुंबई</span>
+    <span class="badge">रत्नागिरी → पुणे</span>
+    <span class="badge">A/C Sleeper (2+1)</span>
+  </div>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h2>📜 महत्त्वाचे नियम व अटी</h2>
+<p class="note"><strong>Booking करण्यापूर्वी खालील नियम व अटी काळजीपूर्वक वाचा.</strong></p>
+<ol class="terms">
+<li>Booking request submit केल्याने ticket automatically confirm होत नाही. Seat availability आणि fare confirm झाल्यानंतरच booking पुढे केली जाईल.</li>
+<li>Passenger चे Full Name, Age, Gender, Mobile Number आणि इतर details customer ने अचूक द्यावेत.</li>
+<li>चुकीची passenger information दिल्यास त्यातून होणाऱ्या समस्येची जबाबदारी customer ची असेल.</li>
+<li>Final fare आणि seat availability booking करण्यापूर्वी WhatsApp वर confirm केली जाईल.</li>
+<li>Payment करण्यापूर्वी fare आणि booking details customer ने तपासाव्यात.</li>
+<li>Payment successful झाल्यानंतरच booking process केली जाईल.</li>
+<li>Payment केल्यानंतर booking unsuccessful झाल्यास applicable refund process booking platform/operator च्या नियमानुसार केला जाईल.</li>
+<li>Cancellation आणि refund हे संबंधित bus operator/booking platform च्या लागू policy नुसार असतील. Cancellation charges लागू होऊ शकतात.</li>
+<li>Refund amount आणि refund timeline ची guarantee agent कडून दिली जाणार नाही.</li>
+<li>Bus timing, boarding point, dropping point किंवा bus/service मध्ये operator कडून बदल झाल्यास operator चे नियम लागू राहतील.</li>
+<li>Customer ने boarding point वर दिलेल्या वेळेआधी पोहोचणे आवश्यक आहे.</li>
+<li>Customer ने ticket मिळाल्यानंतर Name, Date, Route, Boarding आणि Dropping Point तपासणे आवश्यक आहे.</li>
+<li>Bus miss झाल्यास किंवा passenger वेळेवर boarding point वर उपस्थित नसल्यास refund operator policy नुसारच असेल.</li>
+<li>Seat number/seat preference availability नुसार confirm होईल; requested seat मिळेलच याची हमी नाही.</li>
+<li>एका booking मध्ये अनेक passengers असल्यास प्रत्येक passenger ची योग्य माहिती देणे आवश्यक आहे.</li>
+<li>Customer चे personal details फक्त ticket booking आणि संबंधित communication साठी वापरले जातील.</li>
+<li>OTP, UPI PIN, ATM PIN, CVV, password किंवा banking credentials कधीही share करू नयेत.</li>
+<li>Payment केल्यानंतर transaction/reference details मागितल्यास customer ने योग्य माहिती द्यावी.</li>
+<li>कुठल्याही special route/operator साठी अतिरिक्त नियम लागू असल्यास तेच अंतिम मानले जातील.</li>
+<li>Ticket booking पूर्ण झाल्यानंतर ticket/PNR customer ला WhatsApp वर पाठवला जाईल.</li>
+</ol>
+</div>
+
+<div class="card">
+<h2>🚌 Booking Details</h2>
+
+<label>Route निवडा</label>
+<select id="route" onchange="updatePoints()">
+  <option value="">-- Route Select करा --</option>
+  <option value="mumbai">रत्नागिरी → मुंबई</option>
+  <option value="pune">रत्नागिरी → पुणे</option>
+</select>
+
+<label>Boarding Point</label>
+<select id="boarding">
+  <option value="">-- आधी Route Select करा --</option>
+</select>
+
+<label>Dropping Point</label>
+<select id="dropping">
+  <option value="">-- आधी Route Select करा --</option>
+</select>
+
+<label>Journey Date</label>
+<input type="date" id="date">
+
+<label>Booking Contact Mobile Number</label>
+<input type="tel" id="mobile" maxlength="10" placeholder="10 digit mobile number">
+<div class="small">या नंबरवर booking related WhatsApp communication होईल.</div>
+
+<label>Passengers</label>
+<div id="passengers"></div>
+<button type="button" class="reset" onclick="addPassenger()">+ Add Passenger</button>
+<div class="small">कमाल 6 passengers. 6 पेक्षा जास्त असल्यास WhatsApp वर details पाठवा.</div>
+
+<p class="note">टीप: Final fare, seat availability आणि booking confirmation WhatsApp वर confirm केली जाईल.</p>
+
+<button class="whatsapp" onclick="sendWhatsApp()">📲 WhatsApp वर Booking Request पाठवा</button>
+<button class="reset" onclick="document.querySelector('form')?.reset();location.reload()">Clear Form</button>
+</div>
+
+</div>
+
+<footer>
+© 2026 भैरव ट्रॅव्हल्स · Bus Ticket Booking
+</footer>
+
+<script>
+const data = {
+  mumbai: {
+    boarding: [
+      "Navalai Travels, Athwada Bazar",
+      "Malnaka – Opp. Vivek Hotel",
+      "Shivaji Nagar Bus Stop",
+      "Salvi Stop New Bus Stop",
+      "JK Files Phata",
+      "TRP Bus Stop",
+      "Kuwarbav Bus Stop",
+      "Railway Station Phata",
+      "Gayalwadi",
+      "Karnvachi-Wadi",
+      "Mahalaxmi Mandir (Khedashi)",
+      "Panval Phata",
+      "Hathkhamba Bus Stop",
+      "Nivali – Near Shivraj Bhaba (Navali)",
+      "Bavnadi (Nivali)",
+      "Sangmeshwar – Opp. Canara Bank Bridge Ending",
+      "Tural Phata",
+      "Aravali Bus Stop",
+      "Sawarda – Nr. ST Bus Stop",
+      "Chiplun – Mehta Petrol Pump"
+    ],
+    dropping: [
+      "Panvel","Kalamboli","Kamothe",
+      "Kharghar","Belapur CBD","Nerul",
+      "Vashi","Mankhurd","Chembur",
+      "Sion","Dadar","Bandra",
+      "Santacruz","Vile Parle East","Andheri",
+      "Jogeshwari","Goregaon","Malad",
+      "Kandivali","Borivali"
+    ]
+  },
+  pune: {
+    boarding: [
+      "Navalai Travels, Athwada Bazar",
+      "Malnaka – Opp. Vivek Hotel",
+      "Shivaji Nagar Bus Stop",
+      "Salvi Stop New Bus Stop",
+      "JK Files Phata",
+      "TRP Bus Stop",
+      "Kuwarbav Bus Stop",
+      "Railway Station Phata",
+      "Gayalwadi",
+      "Karnvachi-Wadi",
+      "Mahalaxmi Mandir (Khedashi)",
+      "Panval Phata",
+      "Hathkhamba Bus Stop",
+      "Nivali – Near Shivraj Bhaba (Navali)",
+      "Bavnadi (Nivali)",
+      "Vandri Bus Stop",
+      "Sangmeshwar – Opp. Canara Bank Bridge Ending",
+      "Tural Phata",
+      "Aravali Bus Stop",
+      "Dervan Phata",
+      "Sawarda – Nr. ST Bus Stop",
+      "Chiplun – Mehta Petrol Pump"
+    ],
+    dropping: [
+      "Katraj","Padmavati Parking","Swargate",
+      "Dandekar Pool","Deccan Gymkhana",
+      "Kothrud – Nal Stop","Kothrud",
+      "Bavdhan","Baner","Wakad",
+      "Wakad – Bhumkar Chowk","Nigdi"
+    ]
+  }
+};
+
+function fillSelect(el, arr){
+  el.innerHTML = '<option value="">-- Select करा --</option>';
+  arr.forEach(x => {
+    const o=document.createElement('option');
+    o.value=x; o.textContent=x; el.appendChild(o);
+  });
+}
+
+function updatePoints(){
+  const route=document.getElementById('route').value;
+  const b=document.getElementById('boarding');
+  const d=document.getElementById('dropping');
+  if(!route){
+    b.innerHTML='<option value="">-- आधी Route Select करा --</option>';
+    d.innerHTML='<option value="">-- आधी Route Select करा --</option>';
+    return;
+  }
+  fillSelect(b,data[route].boarding);
+  fillSelect(d,data[route].dropping);
+}
+
+let passengerCount = 0;
+
+function addPassenger(){
+  if(passengerCount >= 6){
+    alert("कमाल 6 passengers add करता येतील.");
+    return;
+  }
+  passengerCount++;
+  const div=document.createElement("div");
+  div.className="passenger-box";
+  div.id="passenger-"+passengerCount;
+  div.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <strong>Passenger ${passengerCount}</strong>
+      ${passengerCount>1 ? `<button type="button" onclick="removePassenger(${passengerCount})" style="width:auto;padding:6px 10px;background:#eee;color:#333;font-size:12px">Remove</button>` : ""}
+    </div>
+    <label>Name</label>
+    <input type="text" class="p-name" placeholder="पूर्ण नाव">
+    <label>Age</label>
+    <input type="number" class="p-age" min="1" max="120" placeholder="वय">
+    <label>Gender</label>
+    <select class="p-gender">
+      <option value="">-- Select --</option>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
+    <label>Seat Preference</label>
+    <select class="p-seat">
+      <option value="">-- Preference --</option>
+      <option>Lower</option>
+      <option>Upper</option>
+      <option>Any Available Seat</option>
+    </select>`;
+  document.getElementById("passengers").appendChild(div);
+}
+
+function removePassenger(n){
+  const el=document.getElementById("passenger-"+n);
+  if(el) el.remove();
+}
+
+function getPassengers(){
+  return [...document.querySelectorAll("#passengers .passenger-box")].map((box,i)=>({
+    no:i+1,
+    name:box.querySelector(".p-name").value.trim(),
+    age:box.querySelector(".p-age").value,
+    gender:box.querySelector(".p-gender").value,
+    seat:box.querySelector(".p-seat").value
+  }));
+}
+
+function sendWhatsApp(){
+  const route=document.getElementById('route').value;
+  const b=document.getElementById('boarding').value;
+  const d=document.getElementById('dropping').value;
+  const date=document.getElementById('date').value;
+  const mobile=document.getElementById('mobile').value.trim();
+  const passengers=getPassengers();
+
+  if(!route||!b||!d||!date||!mobile){
+    alert("कृपया Route, Boarding, Dropping, Date आणि Mobile Number भरा.");
+    return;
+  }
+  if(!/^[6-9]\d{9}$/.test(mobile)){
+    alert("कृपया valid 10 digit mobile number टाका.");
+    return;
+  }
+  if(passengers.length===0){
+    alert("किमान 1 passenger add करा.");
+    return;
+  }
+  for(const p of passengers){
+    if(!p.name||!p.age||!p.gender){
+      alert("सर्व passengers चे Name, Age आणि Gender भरा.");
+      return;
+    }
+  }
+
+  const routeText=route==="mumbai" ? "रत्नागिरी → मुंबई" : "रत्नागिरी → पुणे";
+  const passengerText=passengers.map(p =>
+    `${p.no}. ${p.name} — ${p.age} — ${p.gender} — Seat: ${p.seat || "Any Available"}`
+  ).join("\\n");
+
+  const msg =
+`नमस्कार भैरव ट्रॅव्हल्स,
+
+मला Bus Ticket Booking करायची आहे.
+
+🚌 Route: ${routeText}
+🛏️ Bus: A/C Sleeper (2+1)
+📅 Journey Date: ${date}
+📍 Boarding: ${b}
+📍 Dropping: ${d}
+
+👥 Passengers (${passengers.length}):
+${passengerText}
+
+📱 Booking Contact: ${mobile}
+
+कृपया Fare आणि Seat Availability confirm करा.`;
+
+  window.open("https://wa.me/919049076348?text="+encodeURIComponent(msg),"_blank");
+}
+
+addPassenger();
+</script>
+</body>
+</html>
